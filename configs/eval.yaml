@@ -1,0 +1,47 @@
+torch_home: ~/.cache/torch/
+seed: 2000
+use_amp: False
+balance_sample: False
+
+dataset:
+  name: DFA
+  loader: torch
+  DFA:
+    data_root: ./data/release/
+    train_ratio_per_class: 0.8
+    meta_paths: [
+      ./data/release/meta_data/Protocol1_openset_fake_val_merge_meta.csv,
+    ]
+    seed: ${seed}
+    mod: all
+    crop_face: True
+    predictor_path: ./data/release/shape_predictor_68_face_landmarks.dat
+
+transform:
+  image_size: 256
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+method:
+  name: SLModel
+
+model:
+  name: CPLClassifier
+  resume:
+  params:
+    encoder: resnet50
+    num_classes: 20
+    drop_rate: 0.2
+    pretrained: True
+    is_feat: False
+    neck: bnneck
+
+train:
+  batch_size: 128
+
+val:
+  batch_size: 128
+
+test:
+  batch_size: 128
+

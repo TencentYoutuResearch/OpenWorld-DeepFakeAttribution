@@ -1,0 +1,89 @@
+torch_home: ~/.cache/torch/
+seed: 2000
+use_amp: False
+balance_sample: True
+
+dataset:
+  name: DFA
+  loader: torch
+  DFA:
+    data_root: ./data/release/
+    train_ratio_per_class: 0.8
+    meta_paths: [
+      # ./data/release/meta_data/Protocol1_openset_fake_val_merge_meta.csv,
+      # ./data/release/meta_data/Protocol2_openset_real_fake_val_merge_meta.csv,
+      # ./data/release/meta_data/Protocol1_openset_fake_large_merge_meta.csv,
+      ./data/release/meta_data/Protocol2_openset_real_fake_large_merge_meta.csv,
+    ]
+    seed: ${seed}
+    mod: all
+    crop_face: True
+    predictor_path: ./data/release/shape_predictor_68_face_landmarks.dat
+
+transform:
+  image_size: 256
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+model:
+  name: CPLClassifier
+  resume:
+  params:
+    encoder: resnet50
+    num_classes: 22
+    drop_rate: 0.2
+    pretrained: True
+    is_feat: True
+    neck: bnneck
+    num_patch: 3
+
+optimizer:
+  name: Adam
+  params:
+    lr: 0.0002
+    weight_decay: 1.0e-5
+
+scheduler:
+  name: StepLR
+  params:
+    step_size: 10
+    gamma: 0.2
+
+train:
+  epochs: 50
+  batch_size: 128
+  print_interval: 10
+  val_interval: 1
+
+val:
+  batch_size: 128
+
+test:
+  batch_size: 128
+
+method:
+  name: CPL
+  CPL:
+    m: 0.2
+    eta1: 0.5 # For GLV loss
+    eta2: 0.5 # For CSP loss
+    eta3: 1.0 # For Regularization
+
+pseudo:
+  hook: None
+  # hook: MaxHook
+  # hook: FixMatchHook
+  # hook: FlexMatchHook
+  # hook: FreeMatchHook
+  params:
+    num_classes: ${model.params.num_classes}
+    p_cutoff: 0.95
+    eta: 0.5
+
+wandb:
+  entity: deepfake-attribution
+  project: OW-DFA
+  save_code: True
+  name: Stage2-Semi-Supervised-Learning
+  notes:
+  resume:
