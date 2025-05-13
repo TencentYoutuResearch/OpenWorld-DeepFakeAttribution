@@ -1,17 +1,22 @@
 # Open-World DeepFake Attribution
 
-> This repository is official implementation for Contrastive Pseudo Learning for Open-World DeepFake Attribution, ICCV 2023 and Rethinking Open-World DeepFake Attribution with Multi-perspective Sensory Learning, IJCV 2024
+> This repository is official implementation for Contrastive Pseudo Learning for Open-World DeepFake Attribution, ICCV 2023 and Rethinking Open-World DeepFake Attribution with Multi-perspective Sensory Learning, IJCV 2025
 
+[![arXiv](https://img.shields.io/badge/ICCV-2023-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2309.11132) 
+[![Paper](https://img.shields.io/badge/IJCV-2025-5BA37F.svg?logo=researchgate)]([https://arxiv.org/abs/2309.11132](https://link.springer.com/article/10.1007/s11263-024-02184-7)) 
 ![python](https://img.shields.io/badge/python-3.9-blue?logo=python)
 ![pytorch](https://img.shields.io/badge/pytorch-1.13.1-blue?logo=pytorch)
 ![lightning](https://img.shields.io/badge/lightning-Enabled-enabled?logo=lightning)
 
 ## Overview
 
-The challenge in sourcing attribution for forgery faces has gained widespread attention due to the rapid development of generative techniques. While many recent works have taken essential steps on GAN-generated faces, more threatening attacks related to identity swapping or expression transferring are still overlooked. And the forgery traces hidden in unknown attacks from the open-world unlabeled faces still remain under-explored.
-To push the related frontier research, we introduce a new benchmark called Open-World DeepFake Attribution (OW-DFA), which aims to evaluate attribution performance against various types of fake faces under open-world scenarios.
-Meanwhile, we propose a novel framework named Contrastive Pseudo Learning (CPL) for the OW-DFA task through 1) introducing a Global-Local Voting module to guide the feature alignment of forged faces with different manipulated regions, 2) designing a Confidence-based Soft Pseudo-label strategy to mitigate the pseudo-noise caused by similar methods in unlabeled set. In addition, we extend the CPL framework with a multi-stage paradigm that leverages pre-train technique and iterative learning to further enhance traceability performance.
-Extensive experiments verify the superiority of our proposed method on the OW-DFA and also demonstrate the interpretability of deepfake attribution task and its impact on improving the security of deepfake detection area.
+The challenge in sourcing attribution for forgery faces has gained widespread attention due to the rapid development of generative techniques. While many recent works have taken essential steps on GAN-generated faces, more threatening attacks related to identity swapping or diffusion models are still overlooked. And the forgery traces hidden in unknown attacks from the open-world unlabeled faces remain under-explored. To push the related frontier research, we introduce a novel task named Open-World DeepFake Attribution, and the corresponding benchmark OW-DFA and OW-DFA++, which aims to evaluate attribution performance against various types of fake faces in open-world scenarios.
+
+For OW-DFA, we propose a novel framework named Contrastive Pseudo Learning (CPL) for the OW-DFA task through 1) introducing a Global-Local Voting module to guide the feature alignment of forged faces with different manipulated regions, 2) designing a Confidence-based Soft Pseudo-label strategy to mitigate the pseudo-noise caused by similar methods in unlabeled set. In addition, we extend the CPL framework with a multi-stage paradigm that leverages pre-train technique and iterative learning to further enhance traceability performance.
+
+Meanwhile, we propose a Multi-Perspective Sensory Learning (MPSL) framework that aims to address the challenge of OW-DFA++. Since different forged faces have different tampering regions and frequency artifacts, we introduce the Multi-Perception Voting (MPV) module, which aligns inter-sample features based on global, multi-scale local, and frequency relations. The MPV module effectively filters and groups together samples belonging to the same attack type. Pseudo-labeling is another common and effective strategy in semi-supervised learning tasks, and we propose the Confidence-Adaptive Pseudo-labeling (CAP) module, using soft pseudo-labeling to enhance the class compactness and mitigate pseudo-noise induced by similar novel attack methods. The CAP module imposes strong constraints and adaptively filters samples with high uncertainty to improve the accuracy of the pseudo-labeling.
+
+In addition, we extend the CPL and MPSL framework with a multi-stage paradigm that leverages pre-train technique and iterative learning to further enhance traceability performance. Extensive experiments and visualizations verify the superiority of our proposed method on the OW-DFA++ and demonstrate the interpretability of the deepfake attribution task and its impact on improving the security of the deepfake detection area.
 
 
 ## Dataset
@@ -105,11 +110,18 @@ pip3 install -r requirements.txt
 wandb offline
 ```
 
-**Step3.** Train MPSL model on OW-DFA dataset.
+**Step3.** Train MPSL model on OW-DFA dataset. (IJCV 2025)
 
 ```bash
 python3 -u -m torch.distributed.launch --nproc_per_node=1 --master_port 12345 \
-  train.py -c configs/train.yaml
+  train.py -c configs/train_mpsl.yaml
+```
+
+**OR** Train CPL model on OW-DFA dataset. (ICCV 2023)
+
+```bash
+python3 -u -m torch.distributed.launch --nproc_per_node=1 --master_port 12345 \
+  train.py -c configs/train_cpl.yaml
 ```
 
 ## Citation
