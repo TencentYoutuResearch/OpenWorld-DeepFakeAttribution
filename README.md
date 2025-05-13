@@ -10,7 +10,9 @@
 
 ## Overview
 
-<img src="images/OW-DFA++.png" alt="OW-DFA++" width=500 />
+<div align=center />
+<img src="images/OW-DFA++.png" alt="OW-DFA++" width=80% />
+</div>
 
 The challenge in sourcing attribution for forgery faces has gained widespread attention due to the rapid development of generative techniques. While many recent works have taken essential steps on GAN-generated faces, more threatening attacks related to identity swapping or diffusion models are still overlooked. And the forgery traces hidden in unknown attacks from the open-world unlabeled faces remain under-explored. To push the related frontier research, we introduce a novel task named Open-World DeepFake Attribution, and the corresponding benchmark OW-DFA and OW-DFA++, which aims to evaluate attribution performance against various types of fake faces in open-world scenarios.
 
@@ -91,11 +93,11 @@ The challenge in sourcing attribution for forgery faces has gained widespread at
 
 ### CPL
 
-<img src="images/CPL.png" alt="CPL" width=800 />
+<img src="images/CPL.png" alt="CPL" width=95% />
 
 ### MPSL
 
-<img src="images/MPSL.png" alt="MPSL" width=800 />
+<img src="images/MPSL.png" alt="MPSL" width=95% />
 
 ## Quick Start
 **Step1.** Create a conda environment and activate it.
