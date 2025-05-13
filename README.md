@@ -1,6 +1,6 @@
 # Open-World DeepFake Attribution
 
-> This repository is official implementation for Contrastive Pseudo Learning for Open-World DeepFake Attribution, ICCV 2023.
+> This repository is official implementation for Contrastive Pseudo Learning for Open-World DeepFake Attribution, ICCV 2023 and Rethinking Open-World DeepFake Attribution with Multi-perspective Sensory Learning, IJCV 2024
 
 ![python](https://img.shields.io/badge/python-3.9-blue?logo=python)
 ![pytorch](https://img.shields.io/badge/pytorch-1.13.1-blue?logo=pytorch)
@@ -25,6 +25,7 @@ Extensive experiments verify the superiority of our proposed method on the OW-DF
   |   ForgeryNet    | ForgeryNet: A Versatile Benchmark for Comprehensive Forgery Analysis  | [Paper](https://arxiv.org/abs/2103.05630) [Home](https://yinanhe.github.io/projects/forgerynet.html)  |
   |      DFFD       |             On the Detection of Digital Face Manipulation             |     [Paper](https://arxiv.org/abs/1910.01717) [Home](https://cvlab.cse.msu.edu/project-ffd.html)      |
   |   ForgeryNIR    | ForgeryNIR: Deep Face Forgery and Detection in Near-Infrared Scenario |  [Paper](https://ieeexplore.ieee.org/document/9693897) [Code](https://github.com/AEP-WYK/forgerynir)  |
+  |      DF^3       | GLFF: Global and Local Feature Fusion for AI-synthesized Image Detection |  [Paper](https://arxiv.org/abs/2211.08615) [Code](https://github.com/littlejuyan/GLFF)  |
 
 - Download dataset and unzip data under the directory of `/Datasets/deepfakes_detection_datasets/`
 - Process dataset with script `scripts/preprocess/create_academic_meta.ipynb`, and you will get the following structure:
@@ -104,54 +105,32 @@ pip3 install -r requirements.txt
 wandb offline
 ```
 
-**Step3.** Train CPL model on OW-DFA dataset.
+**Step3.** Train MPSL model on OW-DFA dataset.
 
 ```bash
 python3 -u -m torch.distributed.launch --nproc_per_node=1 --master_port 12345 \
   train.py -c configs/train.yaml
 ```
 
-## Benchmark Evaluation
-
-### Protocol-1: Fake
-
-<img src="images/protocol-1.png" alt="Protocol-1 Setting" width=800 />
-
-| **Method**        | **Known ACC** | **Novel ACC** | **Novel NMI** | **Novel ARI** | **All ACC** | **All NMI** | **All ARI** |
-| ----------------- | ------------- | ------------- | ------------- | ------------- | ----------- | ----------- | ----------- |
-| **Lower Bound**   | 99.96         | 40.96         | 46.43         | 24.05         | 46.90       | 63.18       | 36.35       |
-| **Upper Bound**   | 98.21         | 95.36         | 91.57         | 92.14         | 96.68       | 93.94       | 93.59       |
-| **DNA-Det**       | 74.47         | 34.82         | 44.22         | 19.35         | 34.99       | 55.55       | 24.89       |
-| **Openworld-GAN** | 99.57         | 38.93         | 45.89         | 41.52         | 57.62       | 57.63       | 47.47       |
-| **RankStats**     | 98.58         | 49.94         | 56.05         | 39.76         | 72.49       | 73.63       | 66.49       |
-| **ORCA**          | 97.17         | 66.32         | 63.00         | 53.30         | 80.81       | 79.23       | 74.05       |
-| **OpenLDN**       | 97.42         | 45.83         | 51.05         | 38.12         | 63.94       | 71.38       | 62.53       |
-| **NACH**          | 96.88         | 70.13         | 67.10         | 56.63         | 82.61       | 81.98       | 76.41       |
-| **CPL**           | 97.50         | 71.89         | 68.20         | 59.37         | 83.70       | 82.31       | 77.64       |
-
-### Protocol-2: Real & Fake
-
-<img src="images/protocol-2.png" alt="Protocol-2 Setting" width=800 />
-
-| **Method**        | **Known ACC** | **Novel ACC** | **Novel NMI** | **Novel ARI** | **All ACC** | **All NMI** | **All ARI** |
-| ----------------- | ------------- | ------------- | ------------- | ------------- | ----------- | ----------- | ----------- |
-| **Lower Bound**   | 99.80         | 46.48         | 48.44         | 31.49         | 65.73       | 68.91       | 65.75       |
-| **Upper Bound**   | 98.57         | 94.15         | 91.93         | 93.11         | 96.83       | 93.80       | 95.05       |
-| **DNA-Det**       | 89.13         | 28.44         | 25.97         | 8.18          | 54.37       | 50.10       | 31.45       |
-| **Openworld-GAN** | 99.60         | 46.68         | 53.66         | 45.82         | 69.26       | 58.60       | 61.09       |
-| **RankStats**     | 96.84         | 45.26         | 52.44         | 30.17         | 74.39       | 72.21       | 81.66       |
-| **ORCA**          | 95.04         | 53.81         | 60.01         | 38.91         | 78.99       | 78.04       | 83.80       |
-| **OpenLDN**       | 96.40         | 42.23         | 50.66         | 28.86         | 71.19       | 73.26       | 82.51       |
-| **NACH**          | 96.19         | 53.92         | 58.49         | 38.73         | 79.53       | 77.91       | 84.53       |
-| **CPL**           | 95.64         | 59.92         | 63.90         | 43.75         | 81.10       | 80.23       | 84.99       |
-
 ## Citation
 If you find this project useful in your research, please consider cite:
 ```bibtex
 @inproceedings{sun2023contrastive,
-  title={Contrastive Pseudo Learning for Open-World DeepFake Attribution},
+  title={Contrastive pseudo learning for open-world deepfake attribution},
   author={Sun, Zhimin and Chen, Shen and Yao, Taiping and Yin, Bangjie and Yi, Ran and Ding, Shouhong and Ma, Lizhuang},
   booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={20882--20892},
   year={2023}
+}
+
+@article{sun2025rethinking,
+  title={Rethinking open-world deepfake attribution with multi-perspective sensory learning},
+  author={Sun, Zhimin and Chen, Shen and Yao, Taiping and Yi, Ran and Ding, Shouhong and Ma, Lizhuang},
+  journal={International Journal of Computer Vision},
+  volume={133},
+  number={2},
+  pages={628--651},
+  year={2025},
+  publisher={Springer}
 }
 ```
