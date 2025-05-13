@@ -10,10 +10,10 @@ dataset:
     data_root: ./data/release/
     train_ratio_per_class: 0.8
     meta_paths: [
-      # ./data/release/meta_data/Protocol1_openset_fake_val_merge_meta.csv,
-      # ./data/release/meta_data/Protocol2_openset_real_fake_val_merge_meta.csv,
       # ./data/release/meta_data/Protocol1_openset_fake_large_merge_meta.csv,
-      ./data/release/meta_data/Protocol2_openset_real_fake_large_merge_meta.csv,
+      # ./data/release/meta_data/Protocol2_openset_real_fake_large_merge_meta.csv,
+      # ./data/release/meta_data/Protocol3_openset_fake_aigc_large_merge_meta.csv,
+      ./data/release/meta_data/Protocol4_openset_real_fake_aigc_large_merge_meta.csv,
     ]
     seed: ${seed}
     mod: all
@@ -24,18 +24,18 @@ transform:
   image_size: 256
   mean: [0.485, 0.456, 0.406]
   std: [0.229, 0.224, 0.225]
-
+    
 model:
-  name: CPLClassifier
+  name: MPSLClassifier
+  # name: CPLClassifier
   resume:
   params:
     encoder: resnet50
-    num_classes: 22
+    num_classes: 27
     drop_rate: 0.2
     pretrained: True
     is_feat: True
     neck: bnneck
-    num_patch: 3
 
 optimizer:
   name: Adam
@@ -62,7 +62,12 @@ test:
   batch_size: 128
 
 method:
-  name: CPL
+  name: MPSL
+  MPSL:
+    m: 0.2
+    eta1: 0.5 # For MPV loss
+    eta2: 0.5 # For CAP loss
+    eta3: 1.0 # For Regularization
   CPL:
     m: 0.2
     eta1: 0.5 # For GLV loss
