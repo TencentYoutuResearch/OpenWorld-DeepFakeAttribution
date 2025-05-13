@@ -27,7 +27,6 @@ transform:
     
 model:
   name: MPSLClassifier
-  # name: CPLClassifier
   resume:
   params:
     encoder: resnet50
@@ -67,11 +66,6 @@ method:
     m: 0.2
     eta1: 0.5 # For MPV loss
     eta2: 0.5 # For CAP loss
-    eta3: 1.0 # For Regularization
-  CPL:
-    m: 0.2
-    eta1: 0.5 # For GLV loss
-    eta2: 0.5 # For CSP loss
     eta3: 1.0 # For Regularization
 
 pseudo:
