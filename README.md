@@ -10,10 +10,6 @@
 
 ## Overview
 
-<div align=center />
-<img src="images/OW-DFA++.png" alt="OW-DFA++" width=80% />
-</div>
-
 The challenge in sourcing attribution for forgery faces has gained widespread attention due to the rapid development of generative techniques. While many recent works have taken essential steps on GAN-generated faces, more threatening attacks related to identity swapping or diffusion models are still overlooked. And the forgery traces hidden in unknown attacks from the open-world unlabeled faces remain under-explored. To push the related frontier research, we introduce a novel task named Open-World DeepFake Attribution, and the corresponding benchmark OW-DFA and OW-DFA++, which aims to evaluate attribution performance against various types of fake faces in open-world scenarios.
 
 ## Dataset
